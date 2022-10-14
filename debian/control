@@ -1,0 +1,46 @@
+Source: node-rollup-plugin-babel
+Maintainer: Debian Javascript Maintainers <pkg-javascript-devel@lists.alioth.debian.org>
+Uploaders: Pirate Praveen <praveen@debian.org>
+Section: javascript
+Testsuite: autopkgtest-pkg-nodejs
+Priority: optional
+Build-Depends: debhelper-compat (= 13)
+ , node-babel-core (>= 7)
+ , node-babel-plugin-external-helpers (>= 7)
+ , node-babel-plugin-proposal-decorators (>= 7)
+ , node-babel-plugin-syntax-dynamic-import (>= 7)
+ , node-babel-plugin-transform-runtime (>= 7)
+ , node-babel-preset-env (>= 7)
+ , node-types-babel-core (>= 7)
+ , node-rollup-plugin-buble (>= 0.19.4-3~)
+ , node-rollup-pluginutils (>> 3.1.0~)
+ , node-source-map
+ , node-source-map-support
+ , nodejs (>= 10)
+ , dh-sequence-nodejs
+ , rollup (>> 0.68.2+ds~)
+Standards-Version: 4.5.1
+Vcs-Browser: https://salsa.debian.org/js-team/node-rollup-plugin-babel
+Vcs-Git: https://salsa.debian.org/js-team/node-rollup-plugin-babel.git
+Homepage: https://github.com/rollup/plugins
+Rules-Requires-Root: no
+
+Package: node-rollup-plugin-babel
+Architecture: all
+Depends: ${misc:Depends}
+ , node-babel-helper-module-imports (>= 7)
+ , node-rollup-pluginutils (>= 3.1.0~)
+Recommends: rollup
+Enhances: rollup
+Breaks: rollup (<< 0.68.2+ds~)
+Description: Seamless integration between Rollup and Babel
+ If you're using Babel to transpile your ES6/7 code and Rollup to generate a
+ standalone bundle, you have a couple of options:
+  * run the code through Babel first, being careful to exclude the module
+    transformer, or
+  * run the code through Rollup first, and *then* pass it to Babel.
+ .
+ Both approaches have disadvantages. Using Rollup with rollup-plugin-babel
+ makes the process far easier.
+ .
+ Node.js is an event-based server-side JavaScript engine.

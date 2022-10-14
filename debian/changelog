@@ -1,0 +1,219 @@
+node-rollup-plugin-babel (5.2.2+repack-2) unstable; urgency=medium
+
+  * Reupload to unstable (reverse build dependencies fixed)
+
+ -- Pirate Praveen <praveen@debian.org>  Sat, 02 Jan 2021 14:22:52 +0530
+
+node-rollup-plugin-babel (5.2.2+repack-1) experimental; urgency=medium
+
+  * Drop legacy plugin component (Closes: #978933)
+  * Bump Standards-Version to 4.5.1 (no changes needed)
+  * New upstream version 5.2.2+repack
+  * Refresh patches
+  * Drop debian/docs (README.md is about the monorepo and not this plugin)
+  * Drop autopkgtest for legacy component
+  * Add node-rollup-plugin-node-resolve as autopkgtest dependency
+
+ -- Pirate Praveen <praveen@debian.org>  Thu, 31 Dec 2020 22:56:03 +0530
+
+node-rollup-plugin-babel (5.2.1+repack+~4.4.0-2) unstable; urgency=medium
+
+  * Team upload.
+  * fix build-depend on recent
+    node-babel-core node-babel-plugin-external-helpers
+    node-babel-plugin-proposal-decorators
+    node-babel-plugin-syntax-dynamic-import
+    node-babel-plugin-transform-runtime
+    node-babel-preset-env node-types-babel-core
+    (not node-babel7);
+    depend on recent node-babel-helper-module-imports
+    (not node-babel7)
+  * stop depend on nodejs
+
+ -- Jonas Smedegaard <dr@jones.dk>  Sat, 19 Dec 2020 02:25:42 +0100
+
+node-rollup-plugin-babel (5.2.1+repack+~4.4.0-1) unstable; urgency=medium
+
+  * Team upload
+  * Remove @rollup/wasm from import (Closes: #975362) and repack
+
+ -- Xavier Guimard <yadd@debian.org>  Sat, 21 Nov 2020 09:26:29 +0100
+
+node-rollup-plugin-babel (5.2.1+~4.4.0-3) unstable; urgency=medium
+
+  * Team upload
+  * Use dh-sequence-nodejs
+  * Use pkg-js-tools 0.9.41 auto test link
+  * Disable legacy test: when used with rollup 2, it requires mocha 9 which
+    isn't packaged in Debian
+  * Disable one test that produces a different warning with last rollup
+
+ -- Xavier Guimard <yadd@debian.org>  Mon, 05 Oct 2020 06:20:11 +0200
+
+node-rollup-plugin-babel (5.2.1+~4.4.0-2) unstable; urgency=medium
+
+  * Team upload
+  * Back to unstable after successful tests
+
+ -- Xavier Guimard <yadd@debian.org>  Thu, 24 Sep 2020 13:06:28 +0200
+
+node-rollup-plugin-babel (5.2.1+~4.4.0-1) experimental; urgency=medium
+
+  * Team upload
+
+  [ Debian Janitor ]
+  * Set upstream metadata fields: Bug-Submit.
+
+  [ Xavier Guimard ]
+  * New upstream version 3.0.7
+  * Bump debhelper compatibility level to 13
+  * Update upstream name to @rollup/plugin-babel
+  * Update homepage (Closes: #969214)
+  * Embed old rollup-plugin-babel as component
+  * New upstream version 5.2.1+~4.4.0
+  * Refresh patch
+  * Update build
+  * Fix legacy autopkgtest test
+  * Enable upstream test using tape instead of ava
+  * Add lintian overrides
+  * Update copyright
+
+ -- Xavier Guimard <yadd@debian.org>  Mon, 21 Sep 2020 11:45:05 +0200
+
+node-rollup-plugin-babel (4.4.0-8) unstable; urgency=medium
+
+  * Team upload
+  * Fix autopkgtest
+
+ -- Xavier Guimard <yadd@debian.org>  Sat, 13 Jun 2020 09:11:22 +0200
+
+node-rollup-plugin-babel (4.4.0-7) unstable; urgency=medium
+
+  * Team upload
+  * node-babel7 7.9.6 compatibility:
+    + Add patch to fix error output test
+    + Add debian/nodejs/extcopies
+
+ -- Xavier Guimard <yadd@debian.org>  Fri, 12 Jun 2020 07:01:46 +0200
+
+node-rollup-plugin-babel (4.4.0-6) unstable; urgency=medium
+
+  * Add node-rollup-plugin-json as build dependency (fix autopkgtest)
+
+ -- Pirate Praveen <praveen@debian.org>  Sat, 02 May 2020 22:16:29 +0530
+
+node-rollup-plugin-babel (4.4.0-5) unstable; urgency=medium
+
+  * Source only upload (node-babel7 is in unstable now)
+
+ -- Pirate Praveen <praveen@debian.org>  Sat, 02 May 2020 12:08:18 +0530
+
+node-rollup-plugin-babel (4.4.0-4) unstable; urgency=medium
+
+  * Reupload to unstable
+
+ -- Pirate Praveen <praveen@debian.org>  Sat, 02 May 2020 10:15:57 +0530
+
+node-rollup-plugin-babel (4.4.0-3) experimental; urgency=medium
+
+  * Team upload
+  * Require node-micromatch ≥ 4.0.2+repack-3~ for tests (fixes debci)
+
+ -- Xavier Guimard <yadd@debian.org>  Thu, 23 Apr 2020 15:21:57 +0200
+
+node-rollup-plugin-babel (4.4.0-2) experimental; urgency=medium
+
+  * Team upload
+  * Fix binary dependency to node-babel7
+
+ -- Xavier Guimard <yadd@debian.org>  Thu, 26 Mar 2020 14:02:59 +0100
+
+node-rollup-plugin-babel (4.4.0-1) experimental; urgency=medium
+
+  * Team upload
+  * New upstream version 4.4.0 (Closes: #941841)
+  * Remove duplicated autopkgtest
+  * Update debian/clean
+  * Skip patches
+  * Temporarily disable test due to buble problems
+  * Update babel dependency to node-babel7
+  * Update copyright
+
+ -- Xavier Guimard <yadd@debian.org>  Mon, 16 Mar 2020 20:07:20 +0100
+
+node-rollup-plugin-babel (3.0.7-1) unstable; urgency=medium
+
+  * Team upload
+  * New upstream version 3.0.7
+  * Refresh patches
+  * Fix test for rollup 1 (Closes: #954685)
+  * Fix testsuite and remove duplicated autopkgtest require
+  * Fix copyright format url
+
+ -- Xavier Guimard <yadd@debian.org>  Tue, 24 Mar 2020 11:55:51 +0100
+
+node-rollup-plugin-babel (3.0.3-7) unstable; urgency=medium
+
+  * Team upload
+  * Add build depends on es2015
+
+ -- Bastien Roucariès <rouca@debian.org>  Sun, 23 Feb 2020 23:39:22 +0100
+
+node-rollup-plugin-babel (3.0.3-6) unstable; urgency=medium
+
+  * Team upload
+  * Add build depends for test
+
+ -- Bastien Roucariès <rouca@debian.org>  Sun, 23 Feb 2020 23:06:21 +0100
+
+node-rollup-plugin-babel (3.0.3-5) unstable; urgency=medium
+
+  * Team upload
+  * Rebuild with recent rollup
+  * Run basic test with mocha
+  * Improve depends.
+
+ -- Bastien Roucariès <rouca@debian.org>  Sun, 23 Feb 2020 22:18:43 +0100
+
+node-rollup-plugin-babel (3.0.3-4) experimental; urgency=medium
+
+  * Team Upload
+
+  [ Pirate Praveen ]
+  * Update build depends to build with rollup 1
+
+  [ Xavier Guimard ]
+  * Add debian/gbp.conf
+  * Add upstream/metadata
+
+  [ Nilesh ]
+  * Fix rollup.config.js in accordance with rollup 1
+
+ -- Nilesh <npatra974@gmail.com>  Fri, 18 Oct 2019 15:00:16 +0530
+
+node-rollup-plugin-babel (3.0.3-3) unstable; urgency=medium
+
+  * Add node-rollup-plugin-buble as build dependency (rollup dropped this
+    dependency from 0.56.3-1)
+  * Drop compat file, rely on debhelper-compat and bump compat level to 12
+  * Bump Standards-Version to 4.4.1 (no changes needed)
+  * Switch to pkg-js-tools auto install
+
+ -- Pirate Praveen <praveen@debian.org>  Mon, 30 Sep 2019 22:31:03 +0530
+
+node-rollup-plugin-babel (3.0.3-2) unstable; urgency=medium
+
+  [ Paolo Greppi ]
+  * Update Vcs fields for migration to https://salsa.debian.org/
+
+  [ Pirate Praveen ]
+  * Bump debhelper compatibility level to 11
+  * Bump Standards-Version to 4.2.1 (no changes needed)
+
+ -- Pirate Praveen <praveen@debian.org>  Sat, 10 Nov 2018 21:22:41 +0530
+
+node-rollup-plugin-babel (3.0.3-1) unstable; urgency=low
+
+  * Initial release (Closes: #886404)
+
+ -- Pirate Praveen <praveen@debian.org>  Fri, 05 Jan 2018 19:05:22 +0530

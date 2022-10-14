@@ -1,0 +1,15 @@
+#!/bin/sh
+
+set -e
+mkdir -p node_modules
+cp -a /usr/share/nodejs/@babel node_modules/
+if [ -e dist ]; then
+	echo "running test in build sources"
+else
+	cp -a /usr/share/nodejs/rollup-plugin-babel/dist .
+	cp -a /usr/share/nodejs/rollup-plugin-babel/package.json .
+fi
+export HOME=`pwd`
+#mocha
+node -e 'require("rollup-plugin-babel")'
+rm -rf node_modules

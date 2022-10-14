@@ -1,0 +1,109 @@
+Description: disable test that requires rollup ≥ 2
+Author: Xavier Guimard <yadd@debian.org>
+Forwarded: not-needed
+Last-Update: 2020-09-21
+
+--- a/packages/babel/test/as-input-plugin.js
++++ b/packages/babel/test/as-input-plugin.js
+@@ -475,6 +475,7 @@
+   t.end();
+ });
+ 
++/*
+ test('can be used as an input plugin while transforming the output', async (t) => {
+   const bundle = await rollup({
+     input: 'fixtures/basic/main.js',
+@@ -489,3 +490,4 @@
+   t.false(code.includes('const'));
+   t.end();
+ });
++*/
+--- a/packages/babel/test/as-output-plugin.js
++++ b/packages/babel/test/as-output-plugin.js
+@@ -59,6 +59,7 @@
+   });
+ }
+ 
++/*
+ test('allows running the plugin on the output via output options', async (t) => {
+   const code = await generate('fixtures/basic/main.js', {
+     presets: ['@babel/env']
+@@ -66,6 +67,7 @@
+   t.false(code.includes('const'));
+   t.end();
+ });
++*/
+ 
+ test('ignores .babelrc when transforming the output by default', async (t) => {
+   const code = await generate('fixtures/basic/main.js');
+@@ -73,6 +75,7 @@
+   t.end();
+ });
+ 
++/*
+ test("allows transform-runtime to be used with `useESModules: false` (the default) and `format: 'cjs'`", async (t) => {
+   const code = await generate(
+     'fixtures/runtime-helpers/main.js',
+@@ -146,6 +149,7 @@
+   });
+   t.end();
+ });
++*/
+ 
+ test('allows using external-helpers plugin even if the externalHelpers flag is not passed', async (t) => {
+   const warnings = [];
+@@ -164,6 +168,7 @@
+   );
+   t.deepEqual(warnings, []);
+   t.false(code.includes('function _classCallCheck'));
++  /*
+   t.true(code.includes('babelHelpers.classCallCheck'));
+   t.is(
+     code,
+@@ -181,6 +186,7 @@
+ module.exports = main;
+ `
+   );
++  */
+   t.end();
+ });
+ 
+@@ -205,6 +211,7 @@
+ });
+ */
+ 
++/*
+ test('transforms all chunks in a code-splitting setup', async (t) => {
+   const bundle = await rollup({ input: 'fixtures/chunks/main.js' });
+   const output = await getCode(
+@@ -238,7 +245,9 @@
+   );
+   t.end();
+ });
++*/
+ 
++/*
+ test('transforms all chunks when preserving modules', async (t) => {
+   const bundle = await rollup({
+     input: 'fixtures/preserve-modules/main.js',
+@@ -302,6 +311,7 @@
+   t.true(code.includes('console.foobaz'), 'runs the plugin');
+   t.end();
+ });
++*/
+ 
+ /*
+ test('throws when using a Rollup output format other than esm or cjs', async (t) => {
+@@ -311,6 +321,7 @@
+ });
+ */
+ 
++/*
+ test('allows using a Rollup output format other than esm or cjs with allowAllFormats', async (t) => {
+   const code = await generate(
+     'fixtures/basic/main.js',
+@@ -375,3 +386,4 @@
+   );
+   t.end();
+ });
++*/

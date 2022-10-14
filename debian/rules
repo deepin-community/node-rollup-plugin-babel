@@ -1,0 +1,15 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+
+
+%:
+	dh $@
+
+override_dh_auto_build:
+	# Build legacy module
+	dh_auto_build --buildsystem=nodejs
+	# Build @rollup/plugin-babel
+	cd packages/babel && rollup -c
+
+override_dh_auto_test:
+	# No test during build due to buble break

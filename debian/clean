@@ -1,0 +1,5 @@
+legacy/.buble-cache/
+legacy/dist/
+legacy/node_modules/
+node_modules/@rollup/
+packages/*/dist/

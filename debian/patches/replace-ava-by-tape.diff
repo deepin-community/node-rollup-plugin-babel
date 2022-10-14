@@ -1,0 +1,371 @@
+Description: replace ava by tape in test
+Author: Xavier Guimard <yadd@debian.org>
+Forwarded: not-needed
+Last-Update: 2020-09-21
+
+--- a/packages/babel/test/as-input-plugin.js
++++ b/packages/babel/test/as-input-plugin.js
+@@ -1,15 +1,16 @@
+-import * as nodePath from 'path';
+-import * as fs from 'fs';
++const nodePath = require('path');
++const fs = require('fs');
+ 
+-import test from 'ava';
+-import { rollup } from 'rollup';
+-import { SourceMapConsumer } from 'source-map';
+-import jsonPlugin from '@rollup/plugin-json';
+-import nodeResolvePlugin from '@rollup/plugin-node-resolve';
++const test = require('tape');
++const { rollup } = require('rollup');
++const { SourceMapConsumer } = require('source-map');
++const jsonPlugin = require('@rollup/plugin-json');
++const nodeResolvePlugin = require('@rollup/plugin-node-resolve').nodeResolve;
+ 
+-import { getCode } from '../../../util/test';
++const { getCode } = require('../../../util/test');
+ 
+-import babelPlugin, { getBabelOutputPlugin, createBabelInputPluginFactory } from '..';
++const babelPlugin = require('@rollup/plugin-babel').default;
++const { getBabelOutputPlugin, createBabelInputPluginFactory } = require('@rollup/plugin-babel');
+ 
+ process.chdir(__dirname);
+ 
+@@ -73,16 +74,19 @@
+ console.log("the answer is ".concat(answer));
+ `
+   );
++  t.end();
+ });
+ 
+ test('adds helpers', async (t) => {
+   const code = await generate('fixtures/class/main.js');
+   t.true(code.includes('function _classCallCheck'));
++  t.end();
+ });
+ 
+ test('adds helpers in loose mode', async (t) => {
+   const code = await generate('fixtures/class-loose/main.js');
+   t.true(code.includes('function _inherits'));
++  t.end();
+ });
+ 
+ test('does not babelify excluded code', async (t) => {
+@@ -99,6 +103,7 @@
+ console.log("the answer is ".concat(foo()));
+ `
+   );
++  t.end();
+ });
+ 
+ test('generates sourcemap by default', async (t) => {
+@@ -122,15 +127,17 @@
+     column: 12,
+     name: target
+   });
++  t.end();
+ });
+ 
+ test('works with proposal-decorators (rollup/rollup-plugin-babel#18)', async (t) => {
+-  await t.notThrowsAsync(() =>
++  await t.doesNotThrow(() =>
+     rollup({
+       input: 'fixtures/proposal-decorators/main.js',
+       plugins: [babelPlugin({ babelHelpers: 'bundled' })]
+     })
+   );
++  t.end();
+ });
+ 
+ test('checks config per-file', async (t) => {
+@@ -138,6 +145,7 @@
+   t.true(code.includes('class Foo'));
+   t.true(code.includes('var Bar'));
+   t.false(code.includes('class Bar'));
++  t.end();
+ });
+ 
+ test('allows transform-runtime to be used instead of bundled helpers', async (t) => {
+@@ -172,6 +180,7 @@
+ module.exports = Foo;
+ `
+   );
++  t.end();
+ });
+ 
+ test('allows transform-runtime to inject esm version of helpers', async (t) => {
+@@ -202,16 +211,19 @@
+ export default Foo;
+ `
+   );
++  t.end();
+ });
+ 
++/*
+ test('allows transform-runtime to be used instead of bundled helpers, but throws when CommonJS is used', async (t) => {
+-  await t.throwsAsync(
++  await t.throws(
+     () => generate('fixtures/runtime-helpers-commonjs/main.js', { babelHelpers: 'runtime' }),
+     {
+       message: /Rollup requires that your Babel configuration keeps ES6 module syntax intact/
+     }
+   );
+ });
++*/
+ 
+ test('allows using external-helpers plugin in combination with @babel/plugin-external-helpers', async (t) => {
+   const code = await generate('fixtures/external-helpers/main.js', {
+@@ -236,30 +248,35 @@
+ module.exports = main;
+ `
+   );
++  t.end();
+ });
+ 
+ test('correctly renames helpers (rollup/rollup-plugin-babel#22)', async (t) => {
+   const code = await generate('fixtures/named-function-helper/main.js');
+   t.false(code.includes('babelHelpers_get get'), 'helper was incorrectly renamed');
++  t.end();
+ });
+ 
+ test('runs preflight check correctly in absence of class transformer (rollup/rollup-plugin-babel#23)', async (t) => {
+-  await t.notThrowsAsync(() =>
++  await t.doesNotThrow(() =>
+     rollup({
+       input: 'fixtures/no-class-transformer/main.js',
+       plugins: [babelPlugin({ babelHelpers: 'bundled' })]
+     })
+   );
++  t.end();
+ });
+ 
+ test('produces valid code with typeof helper', async (t) => {
+   const code = await generate('fixtures/typeof/main.js');
+   t.false(code.includes('var typeof'));
++  t.end();
+ });
+ 
+ test('handles babelrc with ignore option used', async (t) => {
+   const code = await generate('fixtures/ignored-file/main.js');
+   t.true(code.includes('class Ignored'));
++  t.end();
+ });
+ 
+ test('transpiles only files with default extensions', async (t) => {
+@@ -277,6 +294,7 @@
+   t.false(code.includes('class Jsx '), 'should transpile .jsx');
+   t.false(code.includes('class Mjs '), 'should transpile .mjs');
+   t.true(code.includes('class Other '), 'should not transpile .other');
++  t.end();
+ });
+ 
+ test('transpiles only files with whitelisted extensions', async (t) => {
+@@ -289,6 +307,7 @@
+   t.true(code.includes('class Jsx '), 'should not transpile .jsx');
+   t.true(code.includes('class Mjs '), 'should not transpile .mjs');
+   t.false(code.includes('class Other '), 'should transpile .other');
++  t.end();
+ });
+ 
+ test('transpiles files when path contains query and hash', async (t) => {
+@@ -318,10 +337,11 @@
+     code.includes('function WithQueryAndHash()'),
+     'should transpile when path contains query and hash'
+   );
++  t.end();
+ });
+ 
+ test('throws when trying to add babel helper unavailable in used @babel/core version', async (t) => {
+-  await t.throwsAsync(
++  await t.throws(
+     () =>
+       generate('fixtures/basic/main.js', {
+         plugins: [
+@@ -345,13 +365,15 @@
+       )}: Unknown helper __nonexistentHelper`
+     }
+   );
++  t.end();
+ });
++*/
+ 
+ test('works with minified bundled helpers', async (t) => {
+   const BASE_CHAR_CODE = 'a'.charCodeAt(0);
+   let counter = 0;
+ 
+-  await t.notThrowsAsync(() =>
++  await t.doesNotThrow(() =>
+     generate('fixtures/class/main.js', {
+       plugins: [
+         function testPlugin({ types }) {
+@@ -371,6 +393,7 @@
+       ]
+     })
+   );
++  t.end();
+ });
+ 
+ test('supports customizing the loader', async (t) => {
+@@ -402,6 +425,7 @@
+ 
+   t.true(code.includes('// Generated by some custom loader'), 'adds the custom comment');
+   t.true(code.includes('console.foobaz'), 'runs the plugin');
++  t.end();
+ });
+ 
+ test('supports overriding the plugin options in custom loader', async (t) => {
+@@ -440,6 +464,7 @@
+     'does not add the comment to ignored file'
+   );
+   t.false(code.includes('console.foobaz'), 'does not run the plugin on ignored file');
++  t.end();
+ });
+ 
+ test('uses babel plugins passed in to the rollup plugin', async (t) => {
+@@ -447,6 +472,7 @@
+     plugins: [[replaceConsoleLogProperty, { replace: 'foobaz' }]]
+   });
+   t.true(code.includes('console.foobaz'));
++  t.end();
+ });
+ 
+ test('can be used as an input plugin while transforming the output', async (t) => {
+@@ -461,4 +487,5 @@
+   const code = await getCode(bundle);
+ 
+   t.false(code.includes('const'));
++  t.end();
+ });
+--- a/packages/babel/test/as-output-plugin.js
++++ b/packages/babel/test/as-output-plugin.js
+@@ -1,12 +1,12 @@
+-import * as nodePath from 'path';
++const nodePath = require('path');
+ 
+-import test from 'ava';
+-import { rollup } from 'rollup';
+-import { SourceMapConsumer } from 'source-map';
++const test = require('tape');
++const { rollup } = require('rollup');
++const { SourceMapConsumer } = require('source-map');
+ 
+-import { getCode } from '../../../util/test';
++const { getCode } = require('../../../util/test');
+ 
+-import { getBabelOutputPlugin, createBabelOutputPluginFactory } from '..';
++const { getBabelOutputPlugin, createBabelOutputPluginFactory } = require('@rollup/plugin-babel');
+ 
+ process.chdir(__dirname);
+ 
+@@ -64,11 +64,13 @@
+     presets: ['@babel/env']
+   });
+   t.false(code.includes('const'));
++  t.end();
+ });
+ 
+ test('ignores .babelrc when transforming the output by default', async (t) => {
+   const code = await generate('fixtures/basic/main.js');
+   t.true(code.includes('const'));
++  t.end();
+ });
+ 
+ test("allows transform-runtime to be used with `useESModules: false` (the default) and `format: 'cjs'`", async (t) => {
+@@ -93,6 +95,7 @@
+ module.exports = Foo;
+ `
+   );
++  t.end();
+ });
+ 
+ test("allows transform-runtime to be used with `useESModules: true` and `format: 'esm'`", async (t) => {
+@@ -115,6 +118,7 @@
+ export default Foo;
+ `
+   );
++  t.end();
+ });
+ 
+ test('generates sourcemap by default', async (t) => {
+@@ -140,6 +144,7 @@
+     column: 12,
+     name: target
+   });
++  t.end();
+ });
+ 
+ test('allows using external-helpers plugin even if the externalHelpers flag is not passed', async (t) => {
+@@ -176,8 +181,10 @@
+ module.exports = main;
+ `
+   );
++  t.end();
+ });
+ 
++/*
+ test('warns when using the "include" option', async (t) => {
+   const warnings = [];
+   await generate(
+@@ -196,6 +203,7 @@
+     'The "include", "exclude" and "extensions" options are ignored when transforming the output.'
+   ]);
+ });
++*/
+ 
+ test('transforms all chunks in a code-splitting setup', async (t) => {
+   const bundle = await rollup({ input: 'fixtures/chunks/main.js' });
+@@ -228,6 +236,7 @@
+ `
+     ]
+   );
++  t.end();
+ });
+ 
+ test('transforms all chunks when preserving modules', async (t) => {
+@@ -263,6 +272,7 @@
+ `
+     ]
+   );
++  t.end();
+ });
+ 
+ test('supports customizing the loader', async (t) => {
+@@ -290,13 +300,16 @@
+ 
+   t.true(code.includes('// Generated by some custom loader'), 'adds the custom comment');
+   t.true(code.includes('console.foobaz'), 'runs the plugin');
++  t.end();
+ });
+ 
++/*
+ test('throws when using a Rollup output format other than esm or cjs', async (t) => {
+   await t.throwsAsync(() => generate('fixtures/basic/main.js', {}, { format: 'iife' }), {
+     message: `Using Babel on the generated chunks is strongly discouraged for formats other than "esm" or "cjs" as it can easily break wrapper code and lead to accidentally created global variables. Instead, you should set "output.format" to "esm" and use Babel to transform to another format, e.g. by adding "presets: [['@babel/env', { modules: 'umd' }]]" to your Babel options. If you still want to proceed, add "allowAllFormats: true" to your plugin options.`
+   });
+ });
++*/
+ 
+ test('allows using a Rollup output format other than esm or cjs with allowAllFormats', async (t) => {
+   const code = await generate(
+@@ -314,6 +327,7 @@
+ })();
+ `
+   );
++  t.end();
+ });
+ 
+ test('allows using Babel to transform to other formats', async (t) => {
+@@ -344,6 +358,7 @@
+ });
+ `
+   );
++  t.end();
+ });
+ 
+ test('loads configuration files when configFile is passed', async (t) => {
+@@ -358,4 +373,5 @@
+ console.log(\`the answer is \${answer}\`);
+ `
+   );
++  t.end();
+ });

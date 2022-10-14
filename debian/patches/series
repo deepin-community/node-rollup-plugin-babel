@@ -1,0 +1,3 @@
+replace-ava-by-tape.diff
+disable-test-that-needs-rollup2.diff
+disable-test-that-fails-with-last-rollup.diff
