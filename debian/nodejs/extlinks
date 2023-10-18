@@ -1,0 +1,11 @@
+@babel/core
+@babel/helper-module-imports
+@babel/register	test
+@babel/runtime	test
+@rollup/pluginutils
+@rollup/plugin-json	test
+@rollup/plugin-node-resolve	test
+@rollup/plugin-typescript
+rollup	test
+source-map	test
+ava	test

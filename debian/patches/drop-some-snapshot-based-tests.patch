@@ -1,0 +1,209 @@
+Description: those snapshot may difer a little
+Author: Yadd <yadd@debian.org>
+Forwarded: not-needed
+Last-Update: 2022-10-28
+
+--- a/packages/babel/test/as-input-plugin.mjs
++++ b/packages/babel/test/as-input-plugin.mjs
+@@ -211,70 +211,6 @@
+   t.false(code.includes('class Bar'));
+ });
+ 
+-test('allows transform-runtime to be used instead of bundled helpers', async (t) => {
+-  const warnings = [];
+-  const code = await generate(
+-    'runtime-helpers/main.js',
+-    { babelHelpers: 'runtime' },
+-    {},
+-    {
+-      onwarn(warning) {
+-        warnings.push(warning.message);
+-      }
+-    }
+-  );
+-  t.deepEqual(warnings, [
+-    `"@babel/runtime/helpers/createClass" is imported by "test/fixtures/runtime-helpers/main.js", but could not be resolved – treating it as an external dependency.`,
+-    `"@babel/runtime/helpers/classCallCheck" is imported by "test/fixtures/runtime-helpers/main.js", but could not be resolved – treating it as an external dependency.`
+-  ]);
+-  t.is(
+-    code,
+-    `'use strict';
+-
+-var _createClass = require('@babel/runtime/helpers/createClass');
+-var _classCallCheck = require('@babel/runtime/helpers/classCallCheck');
+-
+-var Foo = /*#__PURE__*/_createClass(function Foo() {
+-  _classCallCheck(this, Foo);
+-});
+-
+-module.exports = Foo;
+-`
+-  );
+-});
+-
+-test('allows transform-runtime to inject esm version of helpers', async (t) => {
+-  const warnings = [];
+-  const code = await generate(
+-    'runtime-helpers-esm/main.js',
+-    { babelHelpers: 'runtime' },
+-    {
+-      format: 'es'
+-    },
+-    {
+-      onwarn(warning) {
+-        warnings.push(warning.message);
+-      }
+-    }
+-  );
+-  t.deepEqual(warnings, [
+-    `"@babel/runtime/helpers/esm/createClass" is imported by "test/fixtures/runtime-helpers-esm/main.js", but could not be resolved – treating it as an external dependency.`,
+-    `"@babel/runtime/helpers/esm/classCallCheck" is imported by "test/fixtures/runtime-helpers-esm/main.js", but could not be resolved – treating it as an external dependency.`
+-  ]);
+-  t.is(
+-    code,
+-    `import _createClass from '@babel/runtime/helpers/esm/createClass';
+-import _classCallCheck from '@babel/runtime/helpers/esm/classCallCheck';
+-
+-var Foo = /*#__PURE__*/_createClass(function Foo() {
+-  _classCallCheck(this, Foo);
+-});
+-
+-export { Foo as default };
+-`
+-  );
+-});
+-
+ test('allows transform-runtime to be used instead of bundled helpers, but throws when CommonJS is used', async (t) => {
+   await t.throwsAsync(
+     () => generate('runtime-helpers-commonjs/main.js', { babelHelpers: 'runtime' }),
+--- a/packages/babel/test/as-output-plugin.mjs
++++ b/packages/babel/test/as-output-plugin.mjs
+@@ -68,55 +68,6 @@
+   t.false(code.includes('const'));
+ });
+ 
+-test('ignores .babelrc when transforming the output by default', async (t) => {
+-  const code = await generate('basic/main.js');
+-  t.true(code.includes('const'));
+-});
+-
+-test("allows transform-runtime to be used with `useESModules: false` (the default) and `format: 'cjs'`", async (t) => {
+-  const code = await generate(
+-    'runtime-helpers/main.js',
+-    {
+-      presets: ['@babel/env'],
+-      plugins: [['@babel/transform-runtime', { useESModules: false }]]
+-    },
+-    { format: 'cjs' }
+-  );
+-  t.is(
+-    code,
+-    `'use strict';
+-
+-var _createClass = require("@babel/runtime/helpers/createClass");
+-var _classCallCheck = require("@babel/runtime/helpers/classCallCheck");
+-var Foo = /*#__PURE__*/_createClass(function Foo() {
+-  _classCallCheck(this, Foo);
+-});
+-module.exports = Foo;
+-`
+-  );
+-});
+-
+-test("allows transform-runtime to be used with `useESModules: true` and `format: 'es'`", async (t) => {
+-  const code = await generate(
+-    'runtime-helpers/main.js',
+-    {
+-      presets: ['@babel/env'],
+-      plugins: [['@babel/transform-runtime', { useESModules: true }]]
+-    },
+-    { format: 'es' }
+-  );
+-  t.is(
+-    code,
+-    `import _createClass from "@babel/runtime/helpers/esm/createClass";
+-import _classCallCheck from "@babel/runtime/helpers/esm/classCallCheck";
+-var Foo = /*#__PURE__*/_createClass(function Foo() {
+-  _classCallCheck(this, Foo);
+-});
+-export { Foo as default };
+-`
+-  );
+-});
+-
+ test('generates sourcemap by default', async (t) => {
+   const bundle = await rollup({ input: `${FIXTURES}class/main.js` });
+ 
+@@ -203,72 +154,6 @@
+   ]);
+ });
+ 
+-test('transforms all chunks in a code-splitting setup', async (t) => {
+-  const bundle = await rollup({ input: `${FIXTURES}chunks/main.js` });
+-  const output = await getCode(
+-    bundle,
+-    {
+-      format: 'es',
+-      plugins: [
+-        getBabelOutputPlugin({
+-          plugins: ['@babel/syntax-dynamic-import'],
+-          presets: ['@babel/env']
+-        })
+-      ]
+-    },
+-    true
+-  );
+-
+-  t.deepEqual(
+-    output.map(({ code }) => code),
+-    [
+-      `import('./dep-20aaf50b.js').then(function (result) {
+-  return console.log(result);
+-});
+-`,
+-      `var dep = function dep() {
+-  return 42;
+-};
+-export { dep as default };
+-`
+-    ]
+-  );
+-});
+-
+-test('transforms all chunks when preserving modules', async (t) => {
+-  const bundle = await rollup({
+-    input: `${FIXTURES}preserve-modules/main.js`
+-  });
+-  const output = await getCode(
+-    bundle,
+-    {
+-      format: 'es',
+-      preserveModules: true,
+-      plugins: [
+-        getBabelOutputPlugin({
+-          presets: ['@babel/env']
+-        })
+-      ]
+-    },
+-    true
+-  );
+-
+-  t.deepEqual(
+-    output.map(({ code }) => code),
+-    [
+-      `import getResult from './dep.js';
+-var value = 42;
+-console.log(getResult(value));
+-`,
+-      `var getResult = function getResult(value) {
+-  return value + 1;
+-};
+-export { getResult as default };
+-`
+-    ]
+-  );
+-});
+-
+ test('supports customizing the loader', async (t) => {
+   const expectedRollupContextKeys = ['getModuleIds', 'emitFile', 'resolve', 'parse'];
+   const customBabelPlugin = createBabelOutputPluginFactory(() => {

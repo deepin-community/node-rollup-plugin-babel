@@ -1,5 +1,64 @@
 # @rollup/plugin-babel ChangeLog
 
+## v6.0.3
+
+_2022-11-25_
+
+### Updates
+
+- docs: small typo in babel plugin readme [#1355](https://github.com/rollup/plugins/pull/1355)
+
+## v6.0.2
+
+_2022-10-21_
+
+### Updates
+
+- chore: update rollup dependencies ([3038271](https://github.com/rollup/plugins/commit/303827191ede6b2e4eade96c6968ed16a587683f))
+
+## v6.0.1
+
+_Skipped for repo rebase_
+
+## v6.0.0
+
+_2022-10-08_
+
+### Breaking Changes
+
+- fix: prepare for Rollup 3 [#1303](https://github.com/rollup/plugins/pull/1303)
+
+## v5.3.1
+
+_2022-02-22_
+
+### Bugfixes
+
+- fix: consider path delimeter on windows (#1090)
+
+## v5.3.0
+
+_2021-02-14_
+
+### Features
+
+- feat: add custom filter option (#767)
+- feat: pass rollup context as this context into override config function (#784)
+
+### Updates
+
+- docs: typo in README.md (#800)
+- chore: commit updated readme format (bfda6d8)
+
+## v5.2.3
+
+_2021-01-29_
+
+### Updates
+
+- docs: add usage with commonjs. fixes #622 (6b4b7b6)
+- docs: update export in README (#690)
+
 ## v5.2.2
 
 _2020-11-30_
