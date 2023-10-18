@@ -1,7 +1,7 @@
 import * as babel from '@babel/core';
 
-import { INLINE, RUNTIME, EXTERNAL, BUNDLED } from './constants';
-import { addBabelPlugin } from './utils';
+import { INLINE, RUNTIME, EXTERNAL, BUNDLED } from './constants.js';
+import { addBabelPlugin } from './utils.js';
 
 const MODULE_ERROR =
   'Rollup requires that your Babel configuration keeps ES6 module syntax intact. ' +
@@ -34,7 +34,8 @@ function helpersTestTransform() {
 const mismatchError = (actual, expected, filename) =>
   `You have declared using "${expected}" babelHelpers, but transforming ${filename} resulted in "${actual}". Please check your configuration.`;
 
-const inheritsHelperRe = /\/helpers\/(esm\/)?inherits/;
+// Revert to /\/helpers\/(esm\/)?inherits/ when Babel 8 gets released, this was fixed in https://github.com/babel/babel/issues/14185
+const inheritsHelperRe = /[\\/]+helpers[\\/]+(esm[\\/]+)?inherits/;
 
 export default async function preflightCheck(ctx, babelHelpers, transformOptions) {
   const finalOptions = addBabelPlugin(transformOptions, helpersTestTransform);

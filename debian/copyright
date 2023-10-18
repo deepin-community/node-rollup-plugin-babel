@@ -2,8 +2,8 @@ Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: @rollup/plugin-babel
 Upstream-Contact: https://github.com/rollup/plugins/issues
 Source: https://github.com/rollup/plugins
-Files-Excluded: *
-Files-Included: packages/babel shared util
+Files-Excluded: packages/*
+Files-Included: packages/babel
 
 Files: *
 Copyright: 2019 RollupJS Plugin Contributors <https://github.com/rollup/plugins/graphs/contributors>
@@ -11,7 +11,7 @@ License: Expat
 
 Files: debian/*
 Copyright: 2018, Pirate Praveen <praveen@debian.org>
- 2020, Xavier Guimard <yadd@debian.org>
+ 2020, Yadd <yadd@debian.org>
 License: Expat
 
 License: Expat

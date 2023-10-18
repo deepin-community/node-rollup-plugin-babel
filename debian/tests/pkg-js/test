@@ -1,2 +1,5 @@
 cd packages/babel
-tape test/*.js
+if test "$AUTOPKGTEST_TMP" != ""; then
+	ln -s /usr/share/nodejs/@rollup/plugin-babel/dist || true
+fi
+ava -u

@@ -1,3 +1,60 @@
+node-rollup-plugin-babel (6.0.3+ds1-1) unstable; urgency=medium
+
+  * Team upload
+  * New upstream version 6.0.3+ds1
+
+ -- Yadd <yadd@debian.org>  Tue, 06 Dec 2022 06:39:25 +0100
+
+node-rollup-plugin-babel (6.0.2+ds1-1) unstable; urgency=medium
+
+  * Team upload
+  * New upstream version 6.0.2+ds1
+  * Update build links (Closes: #1022670)
+  * Use ava for tests
+  * Update autopkgtest
+
+ -- Yadd <yadd@debian.org>  Fri, 28 Oct 2022 09:36:37 +0200
+
+node-rollup-plugin-babel (6.0.0+ds1-3) unstable; urgency=medium
+
+  * Team upload
+  * Drop 3 tests based on snapshots which changed when updating node-babel7
+
+ -- Yadd <yadd@debian.org>  Thu, 13 Oct 2022 17:41:30 +0200
+
+node-rollup-plugin-babel (6.0.0+ds1-2) unstable; urgency=medium
+
+  * Team upload
+  * Back to unstable
+
+ -- Yadd <yadd@debian.org>  Sun, 09 Oct 2022 18:01:06 +0200
+
+node-rollup-plugin-babel (6.0.0+ds1-1) experimental; urgency=medium
+
+  * Team upload
+  * Install README.md and changelog
+  * Update excluded list
+  * New upstream version 6.0.0+ds1
+  * Update test and related patches
+
+ -- Yadd <yadd@debian.org>  Sun, 09 Oct 2022 09:32:10 +0200
+
+node-rollup-plugin-babel (5.3.1+ds1-1) unstable; urgency=medium
+
+  * Team upload
+
+  [ Debian Janitor ]
+  * Remove constraints unnecessary since buster
+
+  [ Yadd ]
+  * Declare compliance with policy 4.6.1
+  * Fix filenamemangle
+  * Fix repacksuffix
+  * New upstream version 5.3.1+ds1
+  * Refresh patches
+
+ -- Yadd <yadd@debian.org>  Mon, 06 Jun 2022 11:31:13 +0200
+
 node-rollup-plugin-babel (5.2.2+repack-2) unstable; urgency=medium
 
   * Reupload to unstable (reverse build dependencies fixed)
